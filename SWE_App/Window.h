@@ -9,8 +9,28 @@ class Window : public wxFrame
 
 private:
 
-	wxButton* button1 = nullptr;
-	wxButton* button2 = nullptr;
+	wxButton* zeroButton = nullptr;
+	wxButton* oneButton = nullptr;
+	wxButton* twoButton = nullptr;
+	wxButton* threeButton = nullptr;
+	wxButton* fourButton = nullptr;
+	wxButton* fiveButton = nullptr;
+	wxButton* sixButton = nullptr;
+	wxButton* sevenButton = nullptr;
+	wxButton* eightButton = nullptr;
+	wxButton* nineButton = nullptr;
+	wxButton* plusButton = nullptr;
+	wxButton* minusButton = nullptr;
+	wxButton* divideButton = nullptr;
+	wxButton* multiplyButton = nullptr;
+	wxButton* equalButton = nullptr;
+	wxButton* backspaceBbutton = nullptr;
+	wxButton* clearBbutton = nullptr;
+	wxButton* modButton = nullptr;
+	wxButton* sinButton = nullptr;
+	wxButton* cosButton = nullptr;
+	wxButton* tanButton = nullptr;
+
 	wxTextCtrl* textBox1 = nullptr;
 
 
