@@ -25,4 +25,6 @@ Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), w
 	tanButton = new wxButton(this, wxID_ANY, "Tan", wxPoint(410, 270), wxSize(85, 50));
 
 	textBox1 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(30, 30), wxSize(525, 50));
+
+	//test
 }
