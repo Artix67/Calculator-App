@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SWE_App.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
