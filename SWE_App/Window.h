@@ -9,7 +9,9 @@ class Window : public wxFrame
 
 private:
 
-
+	wxButton* button1 = nullptr;
+	wxButton* button2 = nullptr;
+	wxTextCtrl* textBox1 = nullptr;
 
 
 public:
