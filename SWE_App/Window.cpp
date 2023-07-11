@@ -2,7 +2,7 @@
 
 Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), wxSize(595, 390)) {
 
-	zeroButton = new wxButton(this, wxID_ANY, "0", wxPoint(30, 270), wxSize(180, 50));
+	zeroButton = new wxButton(this, wxID_ANY, "0", wxPoint(125, 270), wxSize(85, 50));
 	oneButton = new wxButton(this, wxID_ANY, "1", wxPoint(30, 210), wxSize(85, 50));
 	twoButton = new wxButton(this, wxID_ANY, "2", wxPoint(125, 210), wxSize(85, 50));
 	threeButton = new wxButton(this, wxID_ANY, "3", wxPoint(220, 210), wxSize(85, 50));
@@ -12,6 +12,7 @@ Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), w
 	sevenButton = new wxButton(this, wxID_ANY, "7", wxPoint(30, 90), wxSize(85, 50));
 	eightButton = new wxButton(this, wxID_ANY, "8", wxPoint(125, 90), wxSize(85, 50));
 	nineButton = new wxButton(this, wxID_ANY, "9", wxPoint(220, 90), wxSize(85, 50));
+	decimalButton = new wxButton(this, wxID_ANY, ".", wxPoint(30, 270), wxSize(85, 50));
 	plusButton = new wxButton(this, wxID_ANY, "+", wxPoint(315, 90), wxSize(85, 50));
 	minusButton = new wxButton(this, wxID_ANY, "-", wxPoint(315, 150), wxSize(85, 50));
 	divideButton = new wxButton(this, wxID_ANY, "/", wxPoint(315, 210), wxSize(85, 50));

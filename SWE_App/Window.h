@@ -19,6 +19,7 @@ private:
 	wxButton* sevenButton = nullptr;
 	wxButton* eightButton = nullptr;
 	wxButton* nineButton = nullptr;
+	wxButton* decimalButton = nullptr;
 	wxButton* plusButton = nullptr;
 	wxButton* minusButton = nullptr;
 	wxButton* divideButton = nullptr;
