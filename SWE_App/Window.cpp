@@ -1,5 +1,7 @@
 
 #include "Window.h"
+#include "App.h"
+#include <string>
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
 
@@ -152,8 +154,49 @@ void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
 }
 
 void Window::EqualButtonClicked(wxCommandEvent& evt) {
-	wxString selectedText = "=";
-	outputScreen->AppendText(selectedText);
+
+	std::string convertedString = outputScreen->GetValue().ToStdString();
+
+	if (convertedString.find("+")) {
+		std::string sub1 = convertedString.substr(0, convertedString.find("+"));
+		std::string sub2 = convertedString.substr(convertedString.find("+") +1, convertedString.length());
+		float val1 = std::stof(sub1);
+		float val2 = std::stof(sub2);
+		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
+		outputScreen->Clear();
+		outputScreen->AppendText(result);
+	}
+
+	else if (convertedString.find("-")) {
+		std::string sub1 = convertedString.substr(0, convertedString.find("-"));
+		std::string sub2 = convertedString.substr(convertedString.find("-") + 1, convertedString.length());
+		float val1 = std::stof(sub1);
+		float val2 = std::stof(sub2);
+		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
+		outputScreen->Clear();
+		outputScreen->AppendText(result);
+	}
+
+	else if (convertedString.find("*")) {
+		std::string sub1 = convertedString.substr(0, convertedString.find("*"));
+		std::string sub2 = convertedString.substr(convertedString.find("*") + 1, convertedString.length());
+		float val1 = std::stof(sub1);
+		float val2 = std::stof(sub2);
+		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
+		outputScreen->Clear();
+		outputScreen->AppendText(result);
+	}
+
+	else if (convertedString.find("/")) {
+		std::string sub1 = convertedString.substr(0, convertedString.find("/"));
+		std::string sub2 = convertedString.substr(convertedString.find("/+") + 1, convertedString.length());
+		float val1 = std::stof(sub1);
+		float val2 = std::stof(sub2);
+		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
+		outputScreen->Clear();
+		outputScreen->AppendText(result);
+	}
+
 	evt.Skip();
 }
 
