@@ -208,6 +208,7 @@ void Window::BackspaceButtonClicked(wxCommandEvent& evt) {
 }
 
 void Window::ClearButtonClicked(wxCommandEvent& evt) {
+
 	outputScreen->Clear();
 	evt.Skip();
 }
