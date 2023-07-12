@@ -32,12 +32,18 @@ private:
 	wxButton* cosButton = nullptr;
 	wxButton* tanButton = nullptr;
 
-	wxTextCtrl* textBox1 = nullptr;
+	wxTextCtrl* inputBox = nullptr;
+
+	wxListBox* outputBox = nullptr;
+
+	wxDECLARE_EVENT_TABLE();
 
 
 public:
+
 	Window();
 
+	void OnButtonClicked(wxCommandEvent &evt);
 
 };
 
