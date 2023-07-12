@@ -2,6 +2,29 @@
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
 
+	EVT_BUTTON(0, ZeroButtonClicked)
+	EVT_BUTTON(1, OneButtonClicked)
+	EVT_BUTTON(2, TwoButtonClicked)
+	EVT_BUTTON(3, ThreeButtonClicked)
+	EVT_BUTTON(4, FourButtonClicked)
+	EVT_BUTTON(5, FiveButtonClicked)
+	EVT_BUTTON(6, SixButtonClicked)
+	EVT_BUTTON(7, SevenButtonClicked)
+	EVT_BUTTON(8, EightButtonClicked)
+	EVT_BUTTON(9, NineButtonClicked)
+	EVT_BUTTON(00, DecimalButtonClicked)
+	EVT_BUTTON(01, PlusButtonClicked)
+	EVT_BUTTON(02, MinusButtonClicked)
+	EVT_BUTTON(03, DivideButtonClicked)
+	EVT_BUTTON(04, MultiplyButtonClicked)
+	EVT_BUTTON(05, EqualButtonClicked)
+	EVT_BUTTON(06, BackspaceButtonClicked)
+	EVT_BUTTON(07, ClearButtonClicked)
+	EVT_BUTTON(10, ModButtonClicked)
+	EVT_BUTTON(11, SinButtonClicked)
+	EVT_BUTTON(12, CosButtonClicked)
+	EVT_BUTTON(13, TanButtonClicked)
+
 wxEND_EVENT_TABLE()
 
 
@@ -34,6 +57,94 @@ Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), w
 	outputBox = new wxListBox(this, 15, wxPoint(297.50, 30), wxSize(257.50, 50));
 }
 
-void Window::OnButtonClicked(wxCommandEvent &evt) {
+Window::~Window() {
+
+}
+
+void Window::ZeroButtonClicked(wxCommandEvent &evt) {
+	
+}
+
+void Window::OneButtonClicked(wxCommandEvent &evt) {
+
+}
+
+void Window::TwoButtonClicked(wxCommandEvent &evt) {
+
+}
+
+void Window::ThreeButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::FourButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::FiveButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::SixButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::SevenButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::EightButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::NineButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::DecimalButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::PlusButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::MinusButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::DivideButtonClicked(wxCommandEvent &evt) {
+
+}
+
+void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::EqualButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::BackspaceButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::ClearButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::ModButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::SinButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::CosButtonClicked(wxCommandEvent& evt) {
+
+}
+
+void Window::TanButtonClicked(wxCommandEvent& evt) {
 
 }
