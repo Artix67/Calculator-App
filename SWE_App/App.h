@@ -1,4 +1,4 @@
-#pragma once
+
 #include "wx/wx.h"
 
 class Window;
@@ -6,11 +6,12 @@ class Window;
 class App : public wxApp
 {
 
-	Window* window = nullptr;
+	Window* mainFrame = nullptr;
 
 public:
-		virtual bool OnInit();
-
+	App();
+	~App();
+	virtual bool OnInit();
 };
 
 

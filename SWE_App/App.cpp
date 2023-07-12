@@ -1,11 +1,21 @@
+
 #include "App.h"
 #include "Window.h"
 
 wxIMPLEMENT_APP(App);
 
+App::App() {
+
+}
+
+App::~App() {
+
+}
+
 bool App::OnInit() {
-	window = new Window();
-	window->Show();
+
+	mainFrame = new Window();
+	mainFrame->Show();
 	return true;
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+
 #include "wx/wx.h"
 
 
@@ -6,8 +6,10 @@
 class Window : public wxFrame
 {
 
+public:
 
-private:
+	Window();
+	~Window();
 
 	wxButton* zeroButton = nullptr;
 	wxButton* oneButton = nullptr;
@@ -31,16 +33,8 @@ private:
 	wxButton* sinButton = nullptr;
 	wxButton* cosButton = nullptr;
 	wxButton* tanButton = nullptr;
-
-	wxTextCtrl* inputBox = nullptr;
-
-	wxListBox* outputBox = nullptr;
-
-public:
-
+	wxTextCtrl* outputScreen = nullptr;
 	wxDECLARE_EVENT_TABLE();
-
-	Window();
 
 	void ZeroButtonClicked(wxCommandEvent &evt);
 	void OneButtonClicked(wxCommandEvent &evt);

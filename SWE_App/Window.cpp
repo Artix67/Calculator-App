@@ -1,3 +1,4 @@
+
 #include "Window.h"
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
@@ -12,18 +13,18 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 	EVT_BUTTON(7, SevenButtonClicked)
 	EVT_BUTTON(8, EightButtonClicked)
 	EVT_BUTTON(9, NineButtonClicked)
-	EVT_BUTTON(00, DecimalButtonClicked)
-	EVT_BUTTON(01, PlusButtonClicked)
-	EVT_BUTTON(02, MinusButtonClicked)
-	EVT_BUTTON(03, DivideButtonClicked)
-	EVT_BUTTON(04, MultiplyButtonClicked)
-	EVT_BUTTON(05, EqualButtonClicked)
-	EVT_BUTTON(06, BackspaceButtonClicked)
-	EVT_BUTTON(07, ClearButtonClicked)
-	EVT_BUTTON(10, ModButtonClicked)
-	EVT_BUTTON(11, SinButtonClicked)
-	EVT_BUTTON(12, CosButtonClicked)
-	EVT_BUTTON(13, TanButtonClicked)
+	EVT_BUTTON(10, DecimalButtonClicked)
+	EVT_BUTTON(11, PlusButtonClicked)
+	EVT_BUTTON(12, MinusButtonClicked)
+	EVT_BUTTON(13, DivideButtonClicked)
+	EVT_BUTTON(14, MultiplyButtonClicked)
+	EVT_BUTTON(15, EqualButtonClicked)
+	EVT_BUTTON(16, BackspaceButtonClicked)
+	EVT_BUTTON(17, ClearButtonClicked)
+	EVT_BUTTON(18, ModButtonClicked)
+	EVT_BUTTON(19, SinButtonClicked)
+	EVT_BUTTON(20, CosButtonClicked)
+	EVT_BUTTON(21, TanButtonClicked)
 
 wxEND_EVENT_TABLE()
 
@@ -40,21 +41,20 @@ Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), w
 	sevenButton = new wxButton(this, 7, "7", wxPoint(30, 90), wxSize(85, 50));
 	eightButton = new wxButton(this, 8, "8", wxPoint(125, 90), wxSize(85, 50));
 	nineButton = new wxButton(this, 9, "9", wxPoint(220, 90), wxSize(85, 50));
-	decimalButton = new wxButton(this, 00, ".", wxPoint(30, 270), wxSize(85, 50));
-	plusButton = new wxButton(this, 01, "+", wxPoint(315, 90), wxSize(85, 50));
-	minusButton = new wxButton(this, 02, "-", wxPoint(315, 150), wxSize(85, 50));
-	divideButton = new wxButton(this, 03, "/", wxPoint(315, 210), wxSize(85, 50));
-	multiplyButton = new wxButton(this, 04, "*", wxPoint(315, 270), wxSize(85, 50));
-	equalButton = new wxButton(this, 05, "=", wxPoint(220, 270), wxSize(85, 50));
-	backspaceBbutton = new wxButton(this, 06, "Delete", wxPoint(505, 90), wxSize(50, 110));
-	clearBbutton = new wxButton(this, 07, "Clear", wxPoint(505, 210), wxSize(50, 110));
-	modButton = new wxButton(this, 10, "Mod", wxPoint(410, 90), wxSize(85, 50));
-	sinButton = new wxButton(this, 11, "Sin", wxPoint(410, 150), wxSize(85, 50));
-	cosButton = new wxButton(this, 12, "Cos", wxPoint(410, 210), wxSize(85, 50));
-	tanButton = new wxButton(this, 13, "Tan", wxPoint(410, 270), wxSize(85, 50));
+	decimalButton = new wxButton(this, 10, ".", wxPoint(30, 270), wxSize(85, 50));
+	plusButton = new wxButton(this, 11, "+", wxPoint(315, 90), wxSize(85, 50));
+	minusButton = new wxButton(this, 12, "-", wxPoint(315, 150), wxSize(85, 50));
+	divideButton = new wxButton(this, 13, "/", wxPoint(315, 210), wxSize(85, 50));
+	multiplyButton = new wxButton(this, 14, "*", wxPoint(315, 270), wxSize(85, 50));
+	equalButton = new wxButton(this, 15, "=", wxPoint(220, 270), wxSize(85, 50));
+	backspaceBbutton = new wxButton(this, 16, "Delete", wxPoint(505, 90), wxSize(50, 110));
+	clearBbutton = new wxButton(this, 17, "Clear", wxPoint(505, 210), wxSize(50, 110));
+	modButton = new wxButton(this, 18, "Mod", wxPoint(410, 90), wxSize(85, 50));
+	sinButton = new wxButton(this, 19, "Sin", wxPoint(410, 150), wxSize(85, 50));
+	cosButton = new wxButton(this, 20, "Cos", wxPoint(410, 210), wxSize(85, 50));
+	tanButton = new wxButton(this, 21, "Tan", wxPoint(410, 270), wxSize(85, 50));
 
-	inputBox = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(257.50, 50));
-	outputBox = new wxListBox(this, 15, wxPoint(297.50, 30), wxSize(257.50, 50));
+	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
 }
 
 Window::~Window() {
@@ -62,89 +62,129 @@ Window::~Window() {
 }
 
 void Window::ZeroButtonClicked(wxCommandEvent &evt) {
-	
+	wxString selectedText = "0";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::OneButtonClicked(wxCommandEvent &evt) {
-
+	wxString selectedText = "1";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::TwoButtonClicked(wxCommandEvent &evt) {
-
+	wxString selectedText = "2";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::ThreeButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "3";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::FourButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "4";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::FiveButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "5";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::SixButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "6";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::SevenButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "7";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::EightButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "8";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::NineButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "9";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::DecimalButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = ".";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::PlusButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "+";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::MinusButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "-";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::DivideButtonClicked(wxCommandEvent &evt) {
-
+	wxString selectedText = "/";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "*";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::EqualButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "=";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
 }
 
 void Window::BackspaceButtonClicked(wxCommandEvent& evt) {
 
+	wxString currentText = outputScreen->GetValue();
+	outputScreen->Remove(currentText.Length()-1, currentText.Length());
+	evt.Skip();
 }
 
 void Window::ClearButtonClicked(wxCommandEvent& evt) {
-
+	outputScreen->Clear();
+	evt.Skip();
 }
 
 void Window::ModButtonClicked(wxCommandEvent& evt) {
 
+	evt.Skip();
 }
 
 void Window::SinButtonClicked(wxCommandEvent& evt) {
 
+	evt.Skip();
 }
 
 void Window::CosButtonClicked(wxCommandEvent& evt) {
 
+	evt.Skip();
 }
 
 void Window::TanButtonClicked(wxCommandEvent& evt) {
 
+	evt.Skip();
 }
