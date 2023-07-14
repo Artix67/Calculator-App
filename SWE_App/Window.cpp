@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "App.h"
 #include <string>
+#include "ButtonFactory.h"
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
 
@@ -33,6 +34,8 @@ wxEND_EVENT_TABLE()
 
 Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), wxSize(595, 390)) {
 
+	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
+
 	zeroButton = new wxButton(this, 0, "0", wxPoint(125, 270), wxSize(85, 50));
 	oneButton = new wxButton(this, 1, "1", wxPoint(30, 210), wxSize(85, 50));
 	twoButton = new wxButton(this, 2, "2", wxPoint(125, 210), wxSize(85, 50));
@@ -55,27 +58,25 @@ Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), w
 	sinButton = new wxButton(this, 19, "Sin", wxPoint(410, 150), wxSize(85, 50));
 	cosButton = new wxButton(this, 20, "Cos", wxPoint(410, 210), wxSize(85, 50));
 	tanButton = new wxButton(this, 21, "Tan", wxPoint(410, 270), wxSize(85, 50));
-
-	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
 }
 
 Window::~Window() {
 
 }
 
-void Window::ZeroButtonClicked(wxCommandEvent &evt) {
+void Window::ZeroButtonClicked(wxCommandEvent& evt) {
 	wxString selectedText = "0";
 	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 
-void Window::OneButtonClicked(wxCommandEvent &evt) {
+void Window::OneButtonClicked(wxCommandEvent& evt) {
 	wxString selectedText = "1";
 	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 
-void Window::TwoButtonClicked(wxCommandEvent &evt) {
+void Window::TwoButtonClicked(wxCommandEvent& evt) {
 	wxString selectedText = "2";
 	outputScreen->AppendText(selectedText);
 	evt.Skip();
@@ -141,7 +142,7 @@ void Window::MinusButtonClicked(wxCommandEvent& evt) {
 	evt.Skip();
 }
 
-void Window::DivideButtonClicked(wxCommandEvent &evt) {
+void Window::DivideButtonClicked(wxCommandEvent& evt) {
 	wxString selectedText = "/";
 	outputScreen->AppendText(selectedText);
 	evt.Skip();
@@ -159,7 +160,7 @@ void Window::EqualButtonClicked(wxCommandEvent& evt) {
 
 	if (convertedString.find("+")) {
 		std::string sub1 = convertedString.substr(0, convertedString.find("+"));
-		std::string sub2 = convertedString.substr(convertedString.find("+") +1, convertedString.length());
+		std::string sub2 = convertedString.substr(convertedString.find("+") + 1, convertedString.length());
 		float val1 = std::stof(sub1);
 		float val2 = std::stof(sub2);
 		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
@@ -203,7 +204,7 @@ void Window::EqualButtonClicked(wxCommandEvent& evt) {
 void Window::BackspaceButtonClicked(wxCommandEvent& evt) {
 
 	wxString currentText = outputScreen->GetValue();
-	outputScreen->Remove(currentText.Length()-1, currentText.Length());
+	outputScreen->Remove(currentText.Length() - 1, currentText.Length());
 	evt.Skip();
 }
 
@@ -232,3 +233,4 @@ void Window::TanButtonClicked(wxCommandEvent& evt) {
 
 	evt.Skip();
 }
+
