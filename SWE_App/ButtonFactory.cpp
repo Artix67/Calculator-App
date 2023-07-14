@@ -1,3 +1,5 @@
+
+#pragma once
 #include "ButtonFactory.h"
 #include "wx/wx.h"
 #include "Window.h"
@@ -11,12 +13,12 @@ ButtonFactory::~ButtonFactory() {
 
 }
 
-wxButton* CreateZeroButton(Window* frame, wxButton *button) {
+wxButton* CreateZeroButton(Window* frame, wxButton* button) {
 	button = new wxButton(frame, 0, "0", wxPoint(125, 270), wxSize(85, 50));
 	return button;
 }
 
-wxButton* CreateOneButton(Window* frame, wxButton *button) {
+wxButton* CreateOneButton(Window* frame, wxButton* button) {
 	button = new wxButton(frame, 1, "1", wxPoint(30, 210), wxSize(85, 50));
 	return button;
 }
