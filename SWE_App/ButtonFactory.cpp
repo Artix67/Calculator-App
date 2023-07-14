@@ -14,6 +14,8 @@ ButtonFactory::~ButtonFactory() {
 
 wxButton CreateZeroButton(Window frame) {
 
+
+
 }
 
 wxButton CreateOneButton() {
