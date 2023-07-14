@@ -32,32 +32,33 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 wxEND_EVENT_TABLE()
 
 
-Window::Window() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(200, 200), wxSize(595, 390)) {
+Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(595, 390)) {
+
+	ButtonFactory factory;
+	
+	zeroButton = factory.CreateZeroButton(this, zeroButton);
+	oneButton = factory.CreateOneButton(this, oneButton);
+	twoButton = factory.CreateTwoButton(this, twoButton);
+	threeButton = factory.CreateThreeButton(this, threeButton);
+	fourButton = factory.CreateFourButton(this, fourButton);
+	fiveButton = factory.CreateFiveButton(this, fiveButton);
+	sixButton = factory.CreateSixButton(this, sixButton);
+	sevenButton = factory.CreateSevenButton(this, sevenButton);
+	eightButton = factory.CreateEightButton(this, eightButton);
+	nineButton = factory.CreateNineButton(this, nineButton);
+	decimalButton = factory.CreateDecimalButton(this, decimalButton);
+	plusButton = factory.CreatePlusButton(this, plusButton);
+	minusButton = factory.CreateMinusButton(this, minusButton);
+	divideButton = factory.CreateDivideButton(this, divideButton);
+	multiplyButton = factory.CreateMultiplyButton(this, multiplyButton);
+	backspaceButton = factory.CreateBackspaceButton(this, backspaceButton);
+	clearButton = factory.CreateClearButton(this, clearButton);
+	modButton = factory.CreateModButton(this, modButton);
+	sinButton = factory.CreateSinButton(this, sinButton);
+	cosButton = factory.CreateCosButton(this, cosButton);
+	tanButton = factory.CreateTanButton(this, tanButton);
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
-
-	zeroButton = new wxButton(this, 0, "0", wxPoint(125, 270), wxSize(85, 50));
-	oneButton = new wxButton(this, 1, "1", wxPoint(30, 210), wxSize(85, 50));
-	twoButton = new wxButton(this, 2, "2", wxPoint(125, 210), wxSize(85, 50));
-	threeButton = new wxButton(this, 3, "3", wxPoint(220, 210), wxSize(85, 50));
-	fourButton = new wxButton(this, 4, "4", wxPoint(30, 150), wxSize(85, 50));
-	fiveButton = new wxButton(this, 5, "5", wxPoint(125, 150), wxSize(85, 50));
-	sixButton = new wxButton(this, 6, "6", wxPoint(220, 150), wxSize(85, 50));
-	sevenButton = new wxButton(this, 7, "7", wxPoint(30, 90), wxSize(85, 50));
-	eightButton = new wxButton(this, 8, "8", wxPoint(125, 90), wxSize(85, 50));
-	nineButton = new wxButton(this, 9, "9", wxPoint(220, 90), wxSize(85, 50));
-	decimalButton = new wxButton(this, 10, ".", wxPoint(30, 270), wxSize(85, 50));
-	plusButton = new wxButton(this, 11, "+", wxPoint(315, 90), wxSize(85, 50));
-	minusButton = new wxButton(this, 12, "-", wxPoint(315, 150), wxSize(85, 50));
-	divideButton = new wxButton(this, 13, "/", wxPoint(315, 210), wxSize(85, 50));
-	multiplyButton = new wxButton(this, 14, "*", wxPoint(315, 270), wxSize(85, 50));
-	equalButton = new wxButton(this, 15, "=", wxPoint(220, 270), wxSize(85, 50));
-	backspaceBbutton = new wxButton(this, 16, "Delete", wxPoint(505, 90), wxSize(50, 110));
-	clearBbutton = new wxButton(this, 17, "Clear", wxPoint(505, 210), wxSize(50, 110));
-	modButton = new wxButton(this, 18, "Mod", wxPoint(410, 90), wxSize(85, 50));
-	sinButton = new wxButton(this, 19, "Sin", wxPoint(410, 150), wxSize(85, 50));
-	cosButton = new wxButton(this, 20, "Cos", wxPoint(410, 210), wxSize(85, 50));
-	tanButton = new wxButton(this, 21, "Tan", wxPoint(410, 270), wxSize(85, 50));
 }
 
 Window::~Window() {
