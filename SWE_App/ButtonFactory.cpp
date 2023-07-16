@@ -44,7 +44,7 @@ wxButton* ButtonFactory::CreateFiveButton(Window* frame, wxButton* button) {
 wxButton* ButtonFactory::CreateSixButton(Window* frame, wxButton* button) {
 	button = new wxButton(frame, 6, "6", wxPoint(220, 150), wxSize(85, 50));
 	return button;
-}
+} 
 
 wxButton* ButtonFactory::CreateSevenButton(Window* frame, wxButton* button) {
 	button = new wxButton(frame, 7, "7", wxPoint(30, 90), wxSize(85, 50));
