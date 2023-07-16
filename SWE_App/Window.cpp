@@ -52,6 +52,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	minusButton = factory.CreateMinusButton(this, minusButton);
 	divideButton = factory.CreateDivideButton(this, divideButton);
 	multiplyButton = factory.CreateMultiplyButton(this, multiplyButton);
+	equalButton = factory.CreateEqualButton(this, equalButton);
 	backspaceButton = factory.CreateBackspaceButton(this, backspaceButton);
 	clearButton = factory.CreateClearButton(this, clearButton);
 	modButton = factory.CreateModButton(this, modButton);
