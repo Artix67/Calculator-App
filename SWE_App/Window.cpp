@@ -4,6 +4,8 @@
 #include "App.h"
 #include <string>
 #include "ButtonFactory.h"
+#include "CalculatorProcessor.h"
+#include <stack>
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
 
@@ -31,7 +33,6 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 	EVT_BUTTON(21, TanButtonClicked)
 
 wxEND_EVENT_TABLE()
-
 
 Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(595, 390)) {
 
@@ -159,8 +160,16 @@ void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
 
 void Window::EqualButtonClicked(wxCommandEvent& evt) {
 
+	CalculatorProcessor processor;
 	std::string convertedString = outputScreen->GetValue().ToStdString();
+	float temp = processor.inputCalculation(convertedString);
+	wxString result = wxString::Format(wxT("%f"),(temp));
+	outputScreen->Clear();
+	outputScreen->AppendText(result);
 
+
+	
+	/*
 	if (convertedString.find("+")) {
 		std::string sub1 = convertedString.substr(0, convertedString.find("+"));
 		std::string sub2 = convertedString.substr(convertedString.find("+") + 1, convertedString.length());
@@ -200,6 +209,7 @@ void Window::EqualButtonClicked(wxCommandEvent& evt) {
 		outputScreen->Clear();
 		outputScreen->AppendText(result);
 	}
+	*/
 
 	evt.Skip();
 }

@@ -84,8 +84,9 @@ bool CalculatorProcessor::isOperator(std::string inputString) {
 	return result;
 }
 
-std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString) {
+float CalculatorProcessor::inputCalculation(std::string inputString) {
 
+	float result;
 	std::string sub1;
 	std::string inputCopy;
 	int val1 = inputString.length();
@@ -223,5 +224,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 		}
 	}
 
-	return stk;
+	result = stk.top();
+
+	return result;
 }
