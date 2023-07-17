@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <stack>
+#include <cmath>
 
 CalculatorProcessor::CalculatorProcessor() {
 
@@ -13,8 +14,35 @@ CalculatorProcessor::~CalculatorProcessor() {
 
 }
 
-void CalculatorProcessoor::precedence() {
+void CalculatorProcessor::precedence(std::list<std::string> numbers, std::list<std::string> operators, std::string sub) {
 	
+	if (sub == "Tan" || "Mod" || "Sin" || "Cos") {
+		operators.push_front(sub);
+	}
+
+	else if (sub == "(") {
+		operators.push_back(sub);
+	}
+
+	else {
+
+		std::list<std::string>::iterator index;
+
+		for (index = operators.end(); index != operators.begin(); index--) {
+
+			if (*index == "+" || "-" && sub == "*" || "/") {
+				operators.push_back(sub);
+				break;
+			}
+
+			else if (*index == "*" || "/" && sub == "+" || "-") {
+				numbers.push_back(*index);
+				operators.erase(index);
+				operators.push_back(sub);
+				break;
+			}
+		}
+	}
 }
 
 bool CalculatorProcessor::isOperator(std::string inputString) {
@@ -56,30 +84,7 @@ bool CalculatorProcessor::isOperator(std::string inputString) {
 	return result;
 }
 
-void CalculatorProcessor::sortOperands(std::list<std::string> operends, std::list<std::string> numbers) {
-
-	std::list<std::string>::iterator index;
-
-	for (index = operends.begin(); index != operends.end(); ) {
-
-		if (*index == "Tan" || "Cos" || "Sin" || "Mod") {
-			numbers.push_back(*index);
-			operends.erase(index);
-		}
-
-		else if (*index == "*" || "/") {
-			numbers.push_back(*index);
-			operends.erase(index);
-		}
-
-		else if (*index == "+" || "-") {
-			numbers.push_back(*index);
-			operends.erase(index);
-		}
-	}
-}
-
-float CalculatorProcessor::inputCalculation(std::string inputString) {
+std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString) {
 
 	std::string sub1;
 	std::string inputCopy;
@@ -96,8 +101,8 @@ float CalculatorProcessor::inputCalculation(std::string inputString) {
 			numbers.push_back(sub1);
 		}
 
-		else if (isOperator(sub1) || sub1 == "(") {
-			operators.push_back(sub1);
+		else if (CalculatorProcessor::isOperator(sub1) || sub1 == "(") {
+			CalculatorProcessor::precedence(numbers, operators, sub1);
 		}
 
 		else if (sub1 == ")") {
@@ -114,29 +119,109 @@ float CalculatorProcessor::inputCalculation(std::string inputString) {
 				}
 				break;
 			}
-
 		}
 	}
 
-	sortOperands(operators, numbers);
-
-	int a, b;
-	std::stack<float> result;
 	std::list<std::string>::iterator index;
-	for (index = numbers.begin(); index != numbers.end(); index++) {
+	std::stack<float> stk;
+	std::string strA, strB, temp;
+	float a, b;
+	char* convertOperand;
 
-		if (isOperator(*index)) {
-			a = result.top();
-			result.pop();
-			b = result.top();
-			result.pop();
-			result.push(mathOperation(a, b, *index));
+	for (index = numbers.begin(); index != numbers.end();) {
+
+		
+		if (*index != "Mod" || "Tan" || "Sin" || "Cos" || "+" || "-" || "/" || "*") {
+
+			strA = *index;
+			numbers.pop_front();
+
+			if (!numbers.empty()) {
+				strB = *index;
+				numbers.pop_front();
+				b = std::stof(strB);
+			}
+			
+			a = std::stof(strA);
+		}
+		
+		else if (*index == "+" || "-" || "/" || "*" || "Mod") {
+			
+			int switchVal;
+
+			if (*index == "Mod") {
+				switchVal = 1;
+			}
+
+			else if (*index == "+") {
+				switchVal = 2;
+			}
+
+			else if (*index == "-") {
+				switchVal = 3;
+			}
+
+			else if (*index == "/") {
+				switchVal = 4;
+			}
+
+			else if (*index == "*") {
+				switchVal = 5;
+			}
+
+			switch (switchVal)
+			{
+			case 1:
+				stk.push((int)a % (int)b);
+				break;
+			case 2:
+				stk.push(b + a);
+				break;
+			case 3:
+				stk.push(b - a);
+				break;
+			case 4:
+				stk.push(b / a);
+				break;
+			case 5:
+				stk.push(b * a);
+				break;
+			}
 		}
 
-		else if (isOperand(*it) > 0) {
-			stk.push(scanNum(*it));
+		else if (*index == "Sin" || "Cos" || "Tan") {
+
+			int switchVal;
+
+			if (*index == "Sin") {
+				switchVal = 1;
+			}
+
+			else if (*index == "Cos") {
+				switchVal = 2;
+			}
+
+			else if (*index == "Tan") {
+				switchVal = 3;
+			}
+
+			temp = *index;
+			convertOperand = const_cast<char*>(temp.c_str());
+
+			switch (switchVal)
+			{
+			case 1:
+				stk.push(sin(a));
+				break;
+			case 2:
+				stk.push(cos(a));
+				break;
+			case 3:
+				stk.push(tan(a));
+				break;
+			}
 		}
 	}
 
-	return result;
+	return stk;
 }

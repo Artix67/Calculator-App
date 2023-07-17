@@ -2,6 +2,7 @@
 #include "wx/wx.h"
 #include <string>
 #include <list>
+#include <stack>
 
 class CalculatorProcessor
 {
@@ -10,9 +11,8 @@ class CalculatorProcessor
 
 public:
 
-	float inputCalculation(std::string inputString);
+	std::stack<float> inputCalculation(std::string inputString);
 	bool isOperator(std::string inputString);
-	void sortOperands(std::list<std::string> operends, std::list<std::string> numbers);
-	void precedence();
+	void precedence(std::list<std::string> numbers, std::list<std::string> operators, std::string sub);
 };
 
