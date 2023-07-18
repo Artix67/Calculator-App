@@ -15,13 +15,13 @@ CalculatorProcessor::~CalculatorProcessor() {
 
 }
 
-std::list<std::string> CalculatorProcessor::TokenizeInput(std::string inputString) {
+bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::string>* tokens) {
 
 	for (int i = 0; i < inputString.length(); i++) {
 
 		int remainingCharacters = inputString.length() - i;
 
-		if (remainingCharacters > 3) {
+		if (remainingCharacters >= 3) {
 
 			std::string advancedOperand = inputString.substr(i, 3);
 
@@ -30,9 +30,61 @@ std::list<std::string> CalculatorProcessor::TokenizeInput(std::string inputStrin
 				|| advancedOperand == "Sin" 
 				|| advancedOperand == "Cos") {
 
+				tokens->push_back(advancedOperand);
+				i += 2;
+				continue;
 			}
 		}
+
+		if (IsNumeric(inputString[i])) {
+
+			std::string token = std::string(1, inputString[i]);
+			i++;
+
+			for (int j = i; j < inputString.length(); j++) {
+
+				if (IsNumeric(inputString[j])) {
+					std::string token;
+					token += inputString[j];
+					i++;
+				}
+				else {
+					break;
+				}
+			}
+
+			if (token == "." 
+				|| ContainsMultipleDecimalPoints(token)) {
+
+				return false;
+			}
+
+			tokens->push_back(token);
+			continue;
+		}
+
+		tokens->push_back(std::string(1, inputString[i]));
 	}
+
+	return true;
+}
+
+bool CalculatorProcessor::ContainsMultipleDecimalPoints(std::string token) {
+
+	int decimalCount = 0;
+	for (int i = 0; i < token.length() && decimalCount < 2; i++) {
+		
+		if (token[i] == '.') {
+			decimalCount++;
+		}
+	}
+
+	return decimalCount > 1;
+}
+
+bool CalculatorProcessor::IsNumeric(char inputChar) {
+
+	return isdigit(inputChar) || inputChar == '.';
 }
 
 void CalculatorProcessor::precedence(std::list<std::string> numbers, std::list<std::string> operators, std::string sub) {
@@ -66,39 +118,15 @@ void CalculatorProcessor::precedence(std::list<std::string> numbers, std::list<s
 	}
 }
 
-bool CalculatorProcessor::isOperator(std::string inputString) {
+bool CalculatorProcessor::isOperator(char inputChar) {
 
 	bool result = false;
 
-	if (inputString == "+") {
-		result = true;
-	}
+	if (inputChar == '+' 
+		|| inputChar == '-' 
+		|| inputChar == '/' 
+		|| inputChar == '*') {
 
-	else if (inputString == "-") {
-		result = true;
-	}
-
-	else if (inputString == "/") {
-		result = true;
-	}
-
-	else if (inputString == "*") {
-		result = true;
-	}
-
-	else if (inputString == "Mod") {
-		result = true;
-	}
-
-	else if (inputString == "Tan") {
-		result = true;
-	}
-
-	else if (inputString == "Sin") {
-		result = true;
-	}
-
-	else if (inputString == "Cos") {
 		result = true;
 	}
 
