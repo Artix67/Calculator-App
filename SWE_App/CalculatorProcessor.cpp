@@ -96,7 +96,8 @@ float CalculatorProcessor::inputCalculation(std::string inputString) {
 	for (int i = 0; i < val1; i++) {
 		
 		inputCopy = inputString;
-		sub1 = inputCopy.substr(inputCopy.at(i));
+		size_t substrindex = i;
+		sub1 = inputString[i];
 
 		if (isdigit(inputString.at(i))) {
 			numbers.push_back(sub1);
