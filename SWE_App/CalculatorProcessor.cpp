@@ -25,9 +25,9 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 
 			std::string advancedOperand = inputString.substr(i, 3);
 
-			if (advancedOperand == "Tan" 
-				|| advancedOperand == "Mod" 
-				|| advancedOperand == "Sin" 
+			if (advancedOperand == "Tan"
+				|| advancedOperand == "Mod"
+				|| advancedOperand == "Sin"
 				|| advancedOperand == "Cos") {
 
 				tokens->push_back(advancedOperand);
@@ -53,7 +53,7 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 				}
 			}
 
-			if (token == "." 
+			if (token == "."
 				|| ContainsMultipleDecimalPoints(token)) {
 
 				return false;
@@ -73,7 +73,7 @@ bool CalculatorProcessor::ContainsMultipleDecimalPoints(std::string token) {
 
 	int decimalCount = 0;
 	for (int i = 0; i < token.length() && decimalCount < 2; i++) {
-		
+
 		if (token[i] == '.') {
 			decimalCount++;
 		}
@@ -87,34 +87,46 @@ bool CalculatorProcessor::IsNumeric(char inputChar) {
 	return isdigit(inputChar) || inputChar == '.';
 }
 
-void CalculatorProcessor::precedence(std::list<std::string> numbers, std::list<std::string> operators, std::string sub) {
-	
-	if (sub == "Tan" || "Mod" || "Sin" || "Cos") {
-		operators.push_front(sub);
+void CalculatorProcessor::precedence(std::stack<std::string> operatorStack, std::queue<std::string> outputQueue, std::list<std::string>* tokens) {
+
+	if (tokens->front() == "Tan" || "Mod" || "Sin" || "Cos") {
+		operatorStack.push(*tokens->front());
+		tokens->pop_front();
 	}
-
-	else if (sub == "(") {
-		operators.push_back(sub);
+	else if (tokens->front() == "(") {
+		operatorStack.push(*tokens->front());
+		tokens->pop_front();
 	}
+	else if (tokens->front() == ")") {
 
-	else {
+		std::stack<std::string>::iterator index;
+		std::list<std::string> reorderList;
 
-		std::list<std::string>::iterator index;
+		for (index = operatorStack.top(); index == "("; index--) {
 
-		for (index = operators.end(); index != operators.begin(); index--) {
-
-			if (*index == "+" || "-" && sub == "*" || "/") {
-				operators.push_back(sub);
-				break;
-			}
-
-			else if (*index == "*" || "/" && sub == "+" || "-") {
-				numbers.push_back(*index);
-				operators.erase(index);
-				operators.push_back(sub);
-				break;
+			if (index == "+" || index == "-") {
+				reorderList.push_back(*index);
 			}
 		}
+
+		std::list<std::string>::iterator listIndex
+
+			for (listIndex = reorderList.begin(); listIndex != reorderList.end();) {
+
+				if (listIndex == "(") {
+					operatorStack.pop();
+					break;
+				}
+
+				outputQueue.push(*listIndex);
+				operatorStack.pop();
+				reorderList.erase(listIndex);
+			}
+
+		for (listIndex = reorderList.begin(); listIndex != reorderList.end(); listIndex++) {
+			operatorStack.pop();
+		}
+		reorderList.clear();
 	}
 }
 
@@ -122,9 +134,9 @@ bool CalculatorProcessor::isOperator(char inputChar) {
 
 	bool result = false;
 
-	if (inputChar == '+' 
-		|| inputChar == '-' 
-		|| inputChar == '/' 
+	if (inputChar == '+'
+		|| inputChar == '-'
+		|| inputChar == '/'
 		|| inputChar == '*') {
 
 		result = true;
@@ -136,13 +148,30 @@ bool CalculatorProcessor::isOperator(char inputChar) {
 float CalculatorProcessor::inputCalculation(std::string inputString) {
 
 	float result;
-	std::string sub1;
-	std::string inputCopy;
-	int val1 = inputString.length();
+	std::list<std::string>* tokens;
 	std::queue<std::string> outputQueue;
 	std::stack<std::string> operatorStack;
 
-	//while()
+	if (CalculatorProcessor::TokenizeInput(inputString, tokens)) {
+
+		while (!tokens->empty()) {
+
+			for (int = i; i < tokens->front().length(); i++) {
+
+				if (IsNumeric(tokens->front()[i])) {
+					outputQueue.push(*tokens->front);
+					tokens->pop_front();
+					break;
+				}
+				else {
+					CalculatorProcessor::precedence(outputQueue, operatorStack, tokens)
+				}
+			}
+		}
+
+
+	}
+
 
 	return result;
 }
