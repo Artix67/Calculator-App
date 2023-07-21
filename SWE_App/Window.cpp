@@ -4,8 +4,10 @@
 #include "App.h"
 #include <string>
 #include "ButtonFactory.h"
+#include "CalculatorProcessor.h"
 
 wxBEGIN_EVENT_TABLE(Window, wxFrame)
+
 
 	EVT_BUTTON(0, ZeroButtonClicked)
 	EVT_BUTTON(1, OneButtonClicked)
@@ -37,6 +39,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 
 	ButtonFactory factory;
 	
+	
 	zeroButton = factory.CreateZeroButton(this, zeroButton);
 	oneButton = factory.CreateOneButton(this, oneButton);
 	twoButton = factory.CreateTwoButton(this, twoButton);
@@ -62,6 +65,8 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
 }
+
+CalculatorProcessor Calculator;
 
 Window::~Window() {
 
@@ -161,46 +166,14 @@ void Window::EqualButtonClicked(wxCommandEvent& evt) {
 
 	std::string convertedString = outputScreen->GetValue().ToStdString();
 
-	if (convertedString.find("+")) {
-		std::string sub1 = convertedString.substr(0, convertedString.find("+"));
-		std::string sub2 = convertedString.substr(convertedString.find("+") + 1, convertedString.length());
-		float val1 = std::stof(sub1);
-		float val2 = std::stof(sub2);
-		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
-		outputScreen->Clear();
-		outputScreen->AppendText(result);
+	outputScreen->Clear();
+	if(Calculator.errorCheck()){
+		outputScreen->AppendText(Calculator.inputCalculation(convertedString));
 	}
-
-	else if (convertedString.find("-")) {
-		std::string sub1 = convertedString.substr(0, convertedString.find("-"));
-		std::string sub2 = convertedString.substr(convertedString.find("-") + 1, convertedString.length());
-		float val1 = std::stof(sub1);
-		float val2 = std::stof(sub2);
-		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
-		outputScreen->Clear();
-		outputScreen->AppendText(result);
+	else {
+		std::string errorMessage = "Input Error, check formatting...";
+		outputScreen->AppendText(errorMessage);
 	}
-
-	else if (convertedString.find("*")) {
-		std::string sub1 = convertedString.substr(0, convertedString.find("*"));
-		std::string sub2 = convertedString.substr(convertedString.find("*") + 1, convertedString.length());
-		float val1 = std::stof(sub1);
-		float val2 = std::stof(sub2);
-		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
-		outputScreen->Clear();
-		outputScreen->AppendText(result);
-	}
-
-	else if (convertedString.find("/")) {
-		std::string sub1 = convertedString.substr(0, convertedString.find("/"));
-		std::string sub2 = convertedString.substr(convertedString.find("/+") + 1, convertedString.length());
-		float val1 = std::stof(sub1);
-		float val2 = std::stof(sub2);
-		wxString result = wxString::Format(wxT("%f"), (val1 + val2));
-		outputScreen->Clear();
-		outputScreen->AppendText(result);
-	}
-
 	evt.Skip();
 }
 

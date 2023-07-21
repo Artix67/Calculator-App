@@ -8,8 +8,9 @@
 
 class CalculatorProcessor
 {
-public:
 
+public:
+	bool errorResult;
 	CalculatorProcessor();
 	~CalculatorProcessor();
 	bool TokenizeInput(std::string inputString, std::list<std::string>* tokens);
@@ -17,6 +18,7 @@ public:
 	bool IsNumeric(char inputChar);
 	void precedence(std::stack<std::string> operatorStack, std::queue<std::string> outputQueue, std::list<std::string>* tokens);
 	bool isOperator(char inputChar);
-	std::stack<float> inputCalculation(std::string inputString);
+	std::string inputCalculation(std::string inputString);
+	bool errorCheck();
 };
 

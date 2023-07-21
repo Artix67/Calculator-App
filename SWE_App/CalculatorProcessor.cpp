@@ -15,6 +15,8 @@ CalculatorProcessor::~CalculatorProcessor() {
 
 }
 
+CalculatorProcessor Calculator;
+
 bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::string>* tokens) {
 
 	for (int i = 0; i < inputString.length(); i++) {
@@ -55,7 +57,7 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 
 			if (token == "."
 				|| ContainsMultipleDecimalPoints(token)) {
-
+				Calculator.errorResult = false;
 				return false;
 			}
 
@@ -143,15 +145,25 @@ bool CalculatorProcessor::isOperator(char inputChar) {
 	return result;
 }
 
-std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString) {
+bool errorCheck() {
 
-	std::stack<float> result;
+	if (Calculator.errorResult == false) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+std::string CalculatorProcessor::inputCalculation(std::string inputString) {
+
 	std::list<std::string>* tokens {};
 	std::queue<std::string> outputQueue;
 	std::stack<std::string> operatorStack;
 
 	if (CalculatorProcessor::TokenizeInput(inputString, tokens)) {
 
+		errorResult = true;
 		std::string numberA;
 		std::string numberB;
 
@@ -213,7 +225,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 							break;
 						}
 						else {
-
+							Calculator.errorResult = false;
 							break;
 						}
 					}
@@ -252,7 +264,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 								break;
 							}
 							else {
-
+								Calculator.errorResult = false;
 								break;
 							}
 
@@ -263,7 +275,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 								break;
 							}
 							else {
-
+								Calculator.errorResult = false;
 								break;
 							}
 
@@ -274,7 +286,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 								break;
 							}
 							else {
-
+								Calculator.errorResult = false;
 								break;
 							}
 
@@ -285,7 +297,7 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 								break;
 							}
 							else {
-									
+								Calculator.errorResult = false;
 								break;
 							}
 						}
@@ -293,7 +305,8 @@ std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString)
 			}
 		}
 	}
-
-	result.push(std::stof(outputQueue.front()));
-	return result;
+	else {
+		errorResult = false;
+	}
+	return outputQueue.front();
 }
