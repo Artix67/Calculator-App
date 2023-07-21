@@ -218,22 +218,26 @@ void Window::ClearButtonClicked(wxCommandEvent& evt) {
 }
 
 void Window::ModButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "Mod(";
+	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 
 void Window::SinButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "Sin(";
+	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 
 void Window::CosButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "Cos(";
+	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 
 void Window::TanButtonClicked(wxCommandEvent& evt) {
-
+	wxString selectedText = "Tan(";
+	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }
 

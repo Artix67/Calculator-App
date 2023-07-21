@@ -90,43 +90,41 @@ bool CalculatorProcessor::IsNumeric(char inputChar) {
 void CalculatorProcessor::precedence(std::stack<std::string> operatorStack, std::queue<std::string> outputQueue, std::list<std::string>* tokens) {
 
 	if (tokens->front() == "Tan" || "Mod" || "Sin" || "Cos") {
-		operatorStack.push(*tokens->front());
+		operatorStack.push(tokens->front());
 		tokens->pop_front();
 	}
 	else if (tokens->front() == "(") {
-		operatorStack.push(*tokens->front());
+		operatorStack.push(tokens->front());
 		tokens->pop_front();
 	}
 	else if (tokens->front() == ")") {
 
-		std::stack<std::string>::iterator index;
 		std::list<std::string> reorderList;
 
-		for (index = operatorStack.top(); index == "("; index--) {
+		while (!operatorStack.empty()) {
 
-			if (index == "+" || index == "-") {
-				reorderList.push_back(*index);
+			if (operatorStack.top() == "(") {
+				break;
+			}
+
+			else if (operatorStack.top() == "+" || operatorStack.top() == "-") {
+				reorderList.push_back(operatorStack.top());
+				operatorStack.pop();
 			}
 		}
 
-		std::list<std::string>::iterator listIndex
+		std::list<std::string>::iterator listIndex;
 
 			for (listIndex = reorderList.begin(); listIndex != reorderList.end();) {
 
-				if (listIndex == "(") {
+				if (*listIndex == "(") {
 					operatorStack.pop();
 					break;
 				}
 
 				outputQueue.push(*listIndex);
-				operatorStack.pop();
 				reorderList.erase(listIndex);
 			}
-
-		for (listIndex = reorderList.begin(); listIndex != reorderList.end(); listIndex++) {
-			operatorStack.pop();
-		}
-		reorderList.clear();
 	}
 }
 
@@ -145,33 +143,157 @@ bool CalculatorProcessor::isOperator(char inputChar) {
 	return result;
 }
 
-float CalculatorProcessor::inputCalculation(std::string inputString) {
+std::stack<float> CalculatorProcessor::inputCalculation(std::string inputString) {
 
-	float result;
-	std::list<std::string>* tokens;
+	std::stack<float> result;
+	std::list<std::string>* tokens {};
 	std::queue<std::string> outputQueue;
 	std::stack<std::string> operatorStack;
 
 	if (CalculatorProcessor::TokenizeInput(inputString, tokens)) {
 
+		std::string numberA;
+		std::string numberB;
+
 		while (!tokens->empty()) {
 
-			for (int = i; i < tokens->front().length(); i++) {
+			for (int i = 0; i < tokens->front().length(); i++) {
 
 				if (IsNumeric(tokens->front()[i])) {
-					outputQueue.push(*tokens->front);
+					outputQueue.push(tokens->front());
 					tokens->pop_front();
 					break;
 				}
 				else {
-					CalculatorProcessor::precedence(outputQueue, operatorStack, tokens)
+					CalculatorProcessor::precedence(operatorStack, outputQueue, tokens);
 				}
 			}
+			
+			if (outputQueue.size() <= 1) {
+
+				if (outputQueue.front() == "Tan"
+					|| outputQueue.front() == "Cos"
+					|| outputQueue.front() == "Sin"
+					|| outputQueue.front() == "Mod") {
+
+					int advanceOperand;
+
+					if (outputQueue.front() == "Tan") {
+						advanceOperand = 1;
+						outputQueue.pop();
+					}
+					else if (outputQueue.front() == "Cos") {
+						advanceOperand = 2;
+						outputQueue.pop();
+					}
+					else if (outputQueue.front() == "Sin") {
+						advanceOperand = 3;
+						outputQueue.pop();
+					}
+					else if (outputQueue.front() == "Mod") {
+						advanceOperand = 4;
+						outputQueue.pop();
+					}
+
+					switch (advanceOperand) {
+					case 1:
+						outputQueue.push(std::to_string((tan(std::stof(outputQueue.front())))));
+						break;
+					case 2:
+						outputQueue.push(std::to_string((cos(std::stof(outputQueue.front())))));
+						break;
+					case 3:
+						outputQueue.push(std::to_string((sin(std::stof(outputQueue.front())))));
+						break;
+					case 4:
+						float firstNum = std::stof(outputQueue.front());
+						outputQueue.pop();
+						if (!outputQueue.empty()) {
+							outputQueue.push(std::to_string(fmod(firstNum, std::stof(outputQueue.front()))));
+							break;
+						}
+						else {
+
+							break;
+						}
+					}
+				}
+
+				else if (outputQueue.front() == "+"
+						|| outputQueue.front() == "-"
+						|| outputQueue.front() == "/"
+						|| outputQueue.front() == "*") {
+
+						int operand;
+						if (outputQueue.front() == "+") {
+							operand = 1;
+							outputQueue.pop();
+						}
+						else if (outputQueue.front() == "-") {
+							operand = 2;
+							outputQueue.pop();
+						}
+						else if (outputQueue.front() == "/") {
+							operand = 3;
+							outputQueue.pop();
+						}
+						else if (outputQueue.front() == "*") {
+							operand = 4;
+							outputQueue.pop();
+						}
+
+						float firstNum = std::stof(outputQueue.front());
+
+						switch (operand) {
+						case 1:
+							outputQueue.pop();
+							if (!outputQueue.empty()) {
+								outputQueue.push(std::to_string(firstNum + std::stof(outputQueue.front())));
+								break;
+							}
+							else {
+
+								break;
+							}
+
+						case 2:
+							outputQueue.pop();
+							if (!outputQueue.empty()) {
+								outputQueue.push(std::to_string(firstNum - std::stof(outputQueue.front())));
+								break;
+							}
+							else {
+
+								break;
+							}
+
+						case 3:
+							outputQueue.pop();
+							if (!outputQueue.empty()) {
+								outputQueue.push(std::to_string(firstNum / std::stof(outputQueue.front())));
+								break;
+							}
+							else {
+
+								break;
+							}
+
+						case 4:
+							outputQueue.pop();
+							if (!outputQueue.empty()) {
+								outputQueue.push(std::to_string(firstNum * std::stof(outputQueue.front())));
+								break;
+							}
+							else {
+									
+								break;
+							}
+						}
+                     }
+			}
 		}
-
-
 	}
 
-
+	result.push(std::stof(outputQueue.front()));
 	return result;
 }
