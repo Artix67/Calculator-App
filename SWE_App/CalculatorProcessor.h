@@ -1,10 +1,13 @@
 #pragma once
 #include "wx/wx.h"
 #include <string>
+#include <iterator>
 #include <list>
 #include <stack>
-#include <queue>
+#include <cmath>
+#include <vector>
 #include "Token.h"
+
 
 class CalculatorProcessor
 {
@@ -23,7 +26,8 @@ public:
 	int precendenceValue(std::string value);
 	bool nextNonLeftParenthesesOperatorExists(std::stack<Token>* operatorStack);
 	bool isLeftAssociative(Token token);
-	std::string calculateResult(std::queue<Token>* outputQueue);
-
+	std::string calculateResult(std::vector<Token>* outputQueue);
+	double calculateOperation(Token t1, Token t2, Token t3);
+	double calculateFunction(Token t1, Token t2);
 };
 

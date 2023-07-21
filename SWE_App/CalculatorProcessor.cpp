@@ -1,11 +1,4 @@
 #include "CalculatorProcessor.h"
-#include "wx/wx.h"
-#include <string>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <cmath>
-#include <queue>
 
 CalculatorProcessor::CalculatorProcessor() {
 
@@ -174,16 +167,72 @@ bool CalculatorProcessor::errorCheck() {
 	}
 }
 
-std::string calculateResult(std::queue<Token>* outputQueue) {
-	std::string boo = "boo";
-	return boo;
+std::string CalculatorProcessor::calculateResult(std::vector<Token>* outputQueue) {
+
+	if (outputQueue->empty()) {
+		return "0";
+	}
+
+	for (size_t i = 0; i < outputQueue->size() - 1; i++) {
+		Token t1 = (*outputQueue)[i];
+		Token t2 = (*outputQueue)[i + 1];
+
+		if (t2.type == Token::Number) {
+			Token t3 = (*outputQueue)[i + 2];
+			double operationResult = calculateOperation(t1, t2, t3);
+			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 2);
+			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(operationResult)));
+			i++;
+		}
+		else {
+			double functionResult = calculateFunction(t1, t2);
+			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 1);
+			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(functionResult)));
+		}
+	}
+
+	return (*outputQueue)[0].value;
 }
 
+double CalculatorProcessor::calculateOperation(Token t1, Token t2, Token t3) {
+
+	if (t3.value == "+") {
+		return std::stod(t1.value) + std::stod(t2.value);
+	}
+	else if (t3.value == "-") {
+		return std::stod(t1.value) - std::stod(t2.value);
+	}
+	else if (t3.value == "/") {
+		return std::stod(t1.value) / std::stod(t2.value);
+	}
+	else if (t3.value == "*") {
+		return std::stod(t1.value) * std::stod(t2.value);
+	}
+	else {
+		return 0;
+	}
+}
+
+double CalculatorProcessor::calculateFunction(Token t1, Token t2) {
+
+	if (t2.value == "Sin") {
+		return sin(std::stod(t1.value));
+	}
+	else if (t2.value == "Cos") {
+		return cos(std::stod(t1.value));
+	}
+	else if (t2.value == "Tan") {
+		return tan(std::stod(t1.value));
+	}
+	else {
+		return 0;
+	}
+}
 
 std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 
 	std::list<Token>* tokens = new std::list<Token>();
-	std::queue<Token>* outputQueue = new std::queue<Token>();
+	std::vector<Token>* outputQueue = new std::vector<Token>();
 	std::stack<Token>* operatorStack = new std::stack<Token>();
 
 	if (CalculatorProcessor::TokenizeInput(inputString, tokens)) {
@@ -194,7 +243,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 			tokens->pop_front();
 
 			if (t.type == Token::Number) {
-				outputQueue->push(t);
+				outputQueue->push_back(t);
 			}
 			else if (t.type == Token::Function) {
 				operatorStack->push(t);
@@ -204,7 +253,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 				while (nextNonLeftParenthesesOperatorExists(operatorStack) 
 					&& (precedence(operatorStack->top(), t) == 1 
 						|| (precedence(operatorStack->top(), t) == 0 && isLeftAssociative(t)))) {
-					outputQueue->push(operatorStack->top());
+					outputQueue->push_back(operatorStack->top());
 					operatorStack->pop();
 				}
 				operatorStack->push(t);
@@ -218,7 +267,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 					break;
 				}
 				while (!operatorStack->empty() && operatorStack->top().value != "(") {
-					outputQueue->push(operatorStack->top());
+					outputQueue->push_back(operatorStack->top());
 					operatorStack->pop();
 				}
 
@@ -230,7 +279,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 				operatorStack->pop();
 
 				if (operatorStack->top().type == Token::Function) {
-					outputQueue->push(operatorStack->top());
+					outputQueue->push_back(operatorStack->top());
 					operatorStack->pop();
 				}
 			}
@@ -242,7 +291,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 					errorResult = false;
 					break;
 				}
-				outputQueue->push(operatorStack->top());
+				outputQueue->push_back(operatorStack->top());
 				operatorStack->pop();
 			}
 		}
@@ -251,9 +300,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 		errorResult = false;
 	}
 
-
-
-	std::string result = outputQueue->front().value;
+	std::string result = calculateResult(outputQueue);
 	delete tokens;
 	delete operatorStack;
 	delete outputQueue;
