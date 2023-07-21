@@ -7,6 +7,7 @@
 #include <stack>
 #include <cmath>
 #include <queue>
+#include "Token.h"
 
 CalculatorProcessor Calculator;
 
