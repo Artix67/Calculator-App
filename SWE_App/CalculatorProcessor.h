@@ -1,5 +1,4 @@
 #pragma once
-#include "CalculatorProcessor.h"
 #include "wx/wx.h"
 #include <string>
 #include <list>

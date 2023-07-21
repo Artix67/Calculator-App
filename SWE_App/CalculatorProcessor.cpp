@@ -1,3 +1,4 @@
+#pragma once
 #include "CalculatorProcessor.h"
 #include "wx/wx.h"
 #include <string>
@@ -7,6 +8,8 @@
 #include <cmath>
 #include <queue>
 
+CalculatorProcessor Calculator;
+
 CalculatorProcessor::CalculatorProcessor() {
 
 }
@@ -15,7 +18,6 @@ CalculatorProcessor::~CalculatorProcessor() {
 
 }
 
-CalculatorProcessor Calculator;
 
 bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::string>* tokens) {
 
@@ -64,10 +66,8 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 			tokens->push_back(token);
 			continue;
 		}
-
 		tokens->push_back(std::string(1, inputString[i]));
 	}
-
 	return true;
 }
 
@@ -145,8 +145,9 @@ bool CalculatorProcessor::isOperator(char inputChar) {
 	return result;
 }
 
-bool errorCheck() {
+bool CalculatorProcessor::errorCheck() {
 
+	CalculatorProcessor Calculator;
 	if (Calculator.errorResult == false) {
 		return false;
 	}
@@ -157,7 +158,7 @@ bool errorCheck() {
 
 std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 
-	std::list<std::string>* tokens {};
+	std::list<std::string>* tokens = new std::list<std::string>();
 	std::queue<std::string> outputQueue;
 	std::stack<std::string> operatorStack;
 
@@ -308,5 +309,6 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 	else {
 		errorResult = false;
 	}
+	delete tokens;
 	return outputQueue.front();
 }

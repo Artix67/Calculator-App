@@ -66,7 +66,6 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
 }
 
-CalculatorProcessor Calculator;
 
 Window::~Window() {
 
@@ -164,6 +163,7 @@ void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
 
 void Window::EqualButtonClicked(wxCommandEvent& evt) {
 
+	CalculatorProcessor Calculator;
 	std::string convertedString = outputScreen->GetValue().ToStdString();
 
 	outputScreen->Clear();
