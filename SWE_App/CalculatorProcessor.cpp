@@ -66,7 +66,9 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 			tokens->push_back(token);
 			continue;
 		}
-		tokens->push_back(std::string(1, inputString[i]));
+		else {
+			tokens->push_back(std::string(1, inputString[i]));
+		}
 	}
 	return true;
 }
