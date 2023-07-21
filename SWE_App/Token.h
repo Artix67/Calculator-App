@@ -1,16 +1,22 @@
 #pragma once
 #include <string>
 
-enum TokenType
-{
-	Number,
-	Function,
-	Operator,
-};
-
 struct Token
 {
+	enum TokenType
+	{
+		Number,
+		Function,
+		Operator,
+		Parentheses
+	};
+
 	TokenType type;
 	std::string value;
+
+	Token(TokenType type, std::string value);
+	~Token();
 };
+
+
 

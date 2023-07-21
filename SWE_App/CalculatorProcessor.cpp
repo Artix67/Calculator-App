@@ -1,4 +1,3 @@
-#pragma once
 #include "CalculatorProcessor.h"
 #include "wx/wx.h"
 #include <string>
@@ -7,9 +6,6 @@
 #include <stack>
 #include <cmath>
 #include <queue>
-#include "Token.h"
-
-CalculatorProcessor Calculator;
 
 CalculatorProcessor::CalculatorProcessor() {
 
@@ -19,10 +15,9 @@ CalculatorProcessor::~CalculatorProcessor() {
 
 }
 
+bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<Token>* tokens) {
 
-bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::string>* tokens) {
-
-	for (int i = 0; i < inputString.length(); i++) {
+	for (size_t i = 0; i < inputString.length(); i++) {
 
 		char debugChar = inputString[i];
 		int remainingCharacters = inputString.length() - i;
@@ -36,7 +31,7 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 				|| advancedOperand == "Sin"
 				|| advancedOperand == "Cos") {
 
-				tokens->push_back(advancedOperand);
+				tokens->push_back(Token(Token::Function, advancedOperand));
 				i += 2;
 				continue;
 			}
@@ -44,13 +39,12 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 
 		if (IsNumeric(inputString[i])) {
 
-			std::string token = std::string(1, inputString[i]);
+			std::string tokenValue = std::string(1, inputString[i]);
 
-			for (int j = i + 1; j < inputString.length(); j++) {
+			for (size_t j = i + 1; j < inputString.length(); j++) {
 
 				if (IsNumeric(inputString[j])) {
-					std::string token;
-					token += inputString[j];
+					tokenValue += inputString[j];
 					i++;
 				}
 				else {
@@ -58,17 +52,20 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 				}
 			}
 
-			if (token == "."
-				|| ContainsMultipleDecimalPoints(token)) {
-				Calculator.errorResult = false;
+			if (tokenValue == "."
+				|| ContainsMultipleDecimalPoints(tokenValue)) {
+				errorResult = false;
 				return false;
 			}
 
-			tokens->push_back(token);
+			tokens->push_back(Token(Token::Number ,tokenValue));
 			continue;
 		}
+		else if (inputString[i] == '(' || inputString[i] == ')') {
+			tokens->push_back(Token(Token::Parentheses, std::string(1, inputString[i])));
+		}
 		else {
-			tokens->push_back(std::string(1, inputString[i]));
+			tokens->push_back(Token(Token::Operator,std::string(1, inputString[i])));
 		}
 	}
 	return true;
@@ -77,7 +74,7 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 bool CalculatorProcessor::ContainsMultipleDecimalPoints(std::string token) {
 
 	int decimalCount = 0;
-	for (int i = 0; i < token.length() && decimalCount < 2; i++) {
+	for (size_t i = 0; i < token.length() && decimalCount < 2; i++) {
 
 		if (token[i] == '.') {
 			decimalCount++;
@@ -87,53 +84,68 @@ bool CalculatorProcessor::ContainsMultipleDecimalPoints(std::string token) {
 	return decimalCount > 1;
 }
 
+bool CalculatorProcessor::nextNonLeftParenthesesOperatorExists(std::stack<Token>* operatorStack) {
+
+	if (operatorStack->empty() 
+		|| operatorStack->top().value == "(" 
+		|| operatorStack->top().type == Token::Number 
+		|| operatorStack->top().type == Token::Function) {
+
+		return false;
+	}
+
+	return true;
+}
+
 bool CalculatorProcessor::IsNumeric(char inputChar) {
 
 	return isdigit(inputChar) || inputChar == '.';
 }
 
-bool CalculatorProcessor::precedence(std::stack<std::string> operatorStack, std::list<std::string>* tokens) {
+int CalculatorProcessor::precendenceValue(std::string value) {
 
-	if (tokens->front() == "Tan" 
-		|| tokens->front() == "Mod" 
-		|| tokens->front() == "Sin" 
-		|| tokens->front() == "Cos") {
-		operatorStack.push(tokens->front());
-		tokens->pop_front();
+	if (value == "*") {
+		return 1;
 	}
-	else if (tokens->front() == "(") {
-		operatorStack.push(tokens->front());
-		tokens->pop_front();
+	else if (value == "/") {
+		return 1;
 	}
-	else if (tokens->front() == ")") {
-
-		std::list<std::string> reorderList;
-
-		while (!operatorStack.empty()) {
-
-			if (operatorStack.top() == "(") {
-				break;
-			}
-
-			else if (operatorStack.top() == "+" || operatorStack.top() == "-") {
-				reorderList.push_back(operatorStack.top());
-				operatorStack.pop();
-			}
-		}
-
-		std::list<std::string>::iterator listIndex;
-
-			for (listIndex = reorderList.begin(); listIndex != reorderList.end();) {
-
-				if (*listIndex == "(") {
-					operatorStack.pop();
-					break;
-				}
-
-				outputQueue.push(*listIndex);
-				reorderList.erase(listIndex);
-			}
+	else if (value == "-") {
+		return 2;
 	}
+	else if (value == "+") {
+		return 2;
+	}
+	else {
+		return 99;
+	}
+}
+
+bool CalculatorProcessor::isLeftAssociative(Token token) {
+	if (token.value == "+" 
+		|| token.value == "-" 
+		|| token.value == "*" 
+		|| token.value == "/") {
+		return true;
+	}
+	return false;
+}
+
+int CalculatorProcessor::precedence(Token op1, Token op2) {
+
+	int op1PrecedenceValue = precendenceValue(op1.value);
+	int op2PrecedenceValue = precendenceValue(op2.value);
+
+	if (op1PrecedenceValue < op2PrecedenceValue) {
+		return 1;
+	}
+	else if (op1PrecedenceValue == op2PrecedenceValue) {
+		return 0;
+	}
+	else if (op1PrecedenceValue > op2PrecedenceValue) {
+		return -1;
+	}
+	return 99;
 }
 
 bool CalculatorProcessor::isOperator(char inputChar) {
@@ -162,160 +174,88 @@ bool CalculatorProcessor::errorCheck() {
 	}
 }
 
+std::string calculateResult(std::queue<Token>* outputQueue) {
+	std::string boo = "boo";
+	return boo;
+}
+
+
 std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 
-	std::list<std::string>* tokens = new std::list<std::string>();
-	std::queue<std::string> outputQueue;
-	std::stack<std::string> operatorStack;
+	std::list<Token>* tokens = new std::list<Token>();
+	std::queue<Token>* outputQueue = new std::queue<Token>();
+	std::stack<Token>* operatorStack = new std::stack<Token>();
 
 	if (CalculatorProcessor::TokenizeInput(inputString, tokens)) {
 
-		errorResult = true;
-		std::string numberA;
-		std::string numberB;
-
 		while (!tokens->empty()) {
 
-			int tokenStackSize = tokens->front().length();
-			for (int i = 0; i < tokenStackSize;) {
+			Token t = tokens->front();
+			tokens->pop_front();
 
-				if (IsNumeric(tokens->front()[i])) {
-					outputQueue.push(tokens->front());
-					tokens->pop_front();
-					tokenStackSize = tokens->front().length();
+			if (t.type == Token::Number) {
+				outputQueue->push(t);
+			}
+			else if (t.type == Token::Function) {
+				operatorStack->push(t);
+			}
+			else if (t.type == Token::Operator) {
+
+				while (nextNonLeftParenthesesOperatorExists(operatorStack) 
+					&& (precedence(operatorStack->top(), t) == 1 
+						|| (precedence(operatorStack->top(), t) == 0 && isLeftAssociative(t)))) {
+					outputQueue->push(operatorStack->top());
+					operatorStack->pop();
 				}
-				else {
-					CalculatorProcessor::precedence(operatorStack, outputQueue, tokens);
+				operatorStack->push(t);
+			}
+			else if (t.value == "(") {
+				operatorStack->push(t);
+			}
+			else if (t.value == ")") {
+				if (operatorStack->empty()) {
+					errorResult = false;
+					break;
+				}
+				while (!operatorStack->empty() && operatorStack->top().value != "(") {
+					outputQueue->push(operatorStack->top());
+					operatorStack->pop();
+				}
+
+				if (operatorStack->empty() || operatorStack->top().value != "(") {
+					errorResult = false;
+					break;
+				}
+
+				operatorStack->pop();
+
+				if (operatorStack->top().type == Token::Function) {
+					outputQueue->push(operatorStack->top());
+					operatorStack->pop();
 				}
 			}
-			
-			if (outputQueue.size() <= 1) {
+		}
 
-				if (outputQueue.front() == "Tan"
-					|| outputQueue.front() == "Cos"
-					|| outputQueue.front() == "Sin"
-					|| outputQueue.front() == "Mod") {
-
-					int advanceOperand;
-
-					if (outputQueue.front() == "Tan") {
-						advanceOperand = 1;
-						outputQueue.pop();
-					}
-					else if (outputQueue.front() == "Cos") {
-						advanceOperand = 2;
-						outputQueue.pop();
-					}
-					else if (outputQueue.front() == "Sin") {
-						advanceOperand = 3;
-						outputQueue.pop();
-					}
-					else if (outputQueue.front() == "Mod") {
-						advanceOperand = 4;
-						outputQueue.pop();
-					}
-
-					switch (advanceOperand) {
-					case 1:
-						outputQueue.push(std::to_string((tan(std::stof(outputQueue.front())))));
-						break;
-					case 2:
-						outputQueue.push(std::to_string((cos(std::stof(outputQueue.front())))));
-						break;
-					case 3:
-						outputQueue.push(std::to_string((sin(std::stof(outputQueue.front())))));
-						break;
-					case 4:
-						float firstNum = std::stof(outputQueue.front());
-						outputQueue.pop();
-						if (!outputQueue.empty()) {
-							outputQueue.push(std::to_string(fmod(firstNum, std::stof(outputQueue.front()))));
-							break;
-						}
-						else {
-							Calculator.errorResult = false;
-							break;
-						}
-					}
+		if (errorResult == true) {
+			while (!operatorStack->empty()) {
+				if (operatorStack->top().value == "(") {
+					errorResult = false;
+					break;
 				}
-
-				else if (outputQueue.front() == "+"
-						|| outputQueue.front() == "-"
-						|| outputQueue.front() == "/"
-						|| outputQueue.front() == "*") {
-
-						int operand;
-						if (outputQueue.front() == "+") {
-							operand = 1;
-							outputQueue.pop();
-						}
-						else if (outputQueue.front() == "-") {
-							operand = 2;
-							outputQueue.pop();
-						}
-						else if (outputQueue.front() == "/") {
-							operand = 3;
-							outputQueue.pop();
-						}
-						else if (outputQueue.front() == "*") {
-							operand = 4;
-							outputQueue.pop();
-						}
-
-						float firstNum = std::stof(outputQueue.front());
-
-						switch (operand) {
-						case 1:
-							outputQueue.pop();
-							if (!outputQueue.empty()) {
-								outputQueue.push(std::to_string(firstNum + std::stof(outputQueue.front())));
-								break;
-							}
-							else {
-								Calculator.errorResult = false;
-								break;
-							}
-
-						case 2:
-							outputQueue.pop();
-							if (!outputQueue.empty()) {
-								outputQueue.push(std::to_string(firstNum - std::stof(outputQueue.front())));
-								break;
-							}
-							else {
-								Calculator.errorResult = false;
-								break;
-							}
-
-						case 3:
-							outputQueue.pop();
-							if (!outputQueue.empty()) {
-								outputQueue.push(std::to_string(firstNum / std::stof(outputQueue.front())));
-								break;
-							}
-							else {
-								Calculator.errorResult = false;
-								break;
-							}
-
-						case 4:
-							outputQueue.pop();
-							if (!outputQueue.empty()) {
-								outputQueue.push(std::to_string(firstNum * std::stof(outputQueue.front())));
-								break;
-							}
-							else {
-								Calculator.errorResult = false;
-								break;
-							}
-						}
-                     }
+				outputQueue->push(operatorStack->top());
+				operatorStack->pop();
 			}
 		}
 	}
 	else {
 		errorResult = false;
 	}
+
+
+
+	std::string result = outputQueue->front().value;
 	delete tokens;
-	return outputQueue.front();
+	delete operatorStack;
+	delete outputQueue;
+	return result;
 }

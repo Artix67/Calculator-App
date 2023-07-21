@@ -1,5 +1,3 @@
-
-#pragma once
 #include "ButtonFactory.h"
 #include "wx/wx.h"
 
@@ -67,7 +65,7 @@ wxButton* ButtonFactory::CreateDecimalButton(Window* frame, wxButton* button) {
 }
 
 wxButton* ButtonFactory::CreatePlusButton(Window* frame, wxButton* button) {
-	button = new wxButton(frame, 11, "+", wxPoint(315, 90), wxSize(85, 50));
+	button = new wxButton(frame, 11, "+", wxPoint(315, 120), wxSize(85, 20));
 	return button;
 }
 
@@ -102,12 +100,12 @@ wxButton* ButtonFactory::CreateClearButton(Window* frame, wxButton* button) {
 }
 
 wxButton* ButtonFactory::CreateLeftPButton(Window* frame, wxButton* button) {
-	button = new wxButton(frame, 18, "(", wxPoint(315, 90), wxSize(32.50, 50));
+	button = new wxButton(frame, 22, "(", wxPoint(315, 90), wxSize(37.50, 20));
 	return button;
 }
 
 wxButton* ButtonFactory::CreateRightPButton(Window* frame, wxButton* button) {
-	button = new wxButton(frame, 18, ")", wxPoint(345, 90), wxSize(32.50, 50));
+	button = new wxButton(frame, 23, ")", wxPoint(365, 90), wxSize(37.50, 20));
 	return button;
 }
 

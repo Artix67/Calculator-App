@@ -1,5 +1,3 @@
-
-#pragma once
 #include "Window.h"
 #include "App.h"
 #include <string>
@@ -31,6 +29,8 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 	EVT_BUTTON(19, SinButtonClicked)
 	EVT_BUTTON(20, CosButtonClicked)
 	EVT_BUTTON(21, TanButtonClicked)
+	EVT_BUTTON(22, LeftPButtonClicked)
+	EVT_BUTTON(23, RightPButtonClicked)
 
 wxEND_EVENT_TABLE()
 
@@ -51,6 +51,8 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	eightButton = factory.CreateEightButton(this, eightButton);
 	nineButton = factory.CreateNineButton(this, nineButton);
 	decimalButton = factory.CreateDecimalButton(this, decimalButton);
+	leftPButton = factory.CreateLeftPButton(this, leftPButton);
+	rightPButton = factory.CreateRightPButton(this, rightPButton);
 	plusButton = factory.CreatePlusButton(this, plusButton);
 	minusButton = factory.CreateMinusButton(this, minusButton);
 	divideButton = factory.CreateDivideButton(this, divideButton);
@@ -64,6 +66,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	tanButton = factory.CreateTanButton(this, tanButton);
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
+	outputScreen->AppendText("Sin(3/3*3.141)");
 }
 
 
@@ -210,6 +213,18 @@ void Window::CosButtonClicked(wxCommandEvent& evt) {
 
 void Window::TanButtonClicked(wxCommandEvent& evt) {
 	wxString selectedText = "Tan(";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
+}
+
+void Window::LeftPButtonClicked(wxCommandEvent& evt) {
+	wxString selectedText = "(";
+	outputScreen->AppendText(selectedText);
+	evt.Skip();
+}
+
+void Window::RightPButtonClicked(wxCommandEvent& evt) {
+	wxString selectedText = ")";
 	outputScreen->AppendText(selectedText);
 	evt.Skip();
 }

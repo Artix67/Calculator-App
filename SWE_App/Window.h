@@ -1,4 +1,3 @@
-
 #pragma once
 #include "wx/wx.h"
 
@@ -25,6 +24,8 @@ public:
 	wxButton* eightButton = nullptr;
 	wxButton* nineButton = nullptr;
 	wxButton* decimalButton = nullptr;
+	wxButton* leftPButton = nullptr;
+	wxButton* rightPButton = nullptr;
 	wxButton* plusButton = nullptr;
 	wxButton* minusButton = nullptr;
 	wxButton* divideButton = nullptr;
@@ -59,5 +60,7 @@ public:
 	void SinButtonClicked(wxCommandEvent& evt);
 	void CosButtonClicked(wxCommandEvent& evt);
 	void TanButtonClicked(wxCommandEvent& evt);
+	void LeftPButtonClicked(wxCommandEvent& evt);
+	void RightPButtonClicked(wxCommandEvent& evt);
 };
 
