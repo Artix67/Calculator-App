@@ -23,6 +23,7 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 
 	for (int i = 0; i < inputString.length(); i++) {
 
+		char debugChar = inputString[i];
 		int remainingCharacters = inputString.length() - i;
 
 		if (remainingCharacters >= 3) {
@@ -43,9 +44,8 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<std::
 		if (IsNumeric(inputString[i])) {
 
 			std::string token = std::string(1, inputString[i]);
-			i++;
 
-			for (int j = i; j < inputString.length(); j++) {
+			for (int j = i + 1; j < inputString.length(); j++) {
 
 				if (IsNumeric(inputString[j])) {
 					std::string token;
@@ -91,9 +91,12 @@ bool CalculatorProcessor::IsNumeric(char inputChar) {
 	return isdigit(inputChar) || inputChar == '.';
 }
 
-void CalculatorProcessor::precedence(std::stack<std::string> operatorStack, std::queue<std::string> outputQueue, std::list<std::string>* tokens) {
+bool CalculatorProcessor::precedence(std::stack<std::string> operatorStack, std::list<std::string>* tokens) {
 
-	if (tokens->front() == "Tan" || "Mod" || "Sin" || "Cos") {
+	if (tokens->front() == "Tan" 
+		|| tokens->front() == "Mod" 
+		|| tokens->front() == "Sin" 
+		|| tokens->front() == "Cos") {
 		operatorStack.push(tokens->front());
 		tokens->pop_front();
 	}
@@ -172,12 +175,13 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 
 		while (!tokens->empty()) {
 
-			for (int i = 0; i < tokens->front().length(); i++) {
+			int tokenStackSize = tokens->front().length();
+			for (int i = 0; i < tokenStackSize;) {
 
 				if (IsNumeric(tokens->front()[i])) {
 					outputQueue.push(tokens->front());
 					tokens->pop_front();
-					break;
+					tokenStackSize = tokens->front().length();
 				}
 				else {
 					CalculatorProcessor::precedence(operatorStack, outputQueue, tokens);

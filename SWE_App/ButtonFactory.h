@@ -29,6 +29,8 @@ public:
 	wxButton* CreateEqualButton(Window* frame, wxButton* button);
 	wxButton* CreateBackspaceButton(Window* frame, wxButton* button);
 	wxButton* CreateClearButton(Window* frame, wxButton* button);
+	wxButton* CreateLeftPButton(Window* frame, wxButton* button);
+	wxButton* CreateRightPButton(Window* frame, wxButton* button);
 	wxButton* CreateModButton(Window* frame, wxButton* button);
 	wxButton* CreateCosButton(Window* frame, wxButton* button);
 	wxButton* CreateSinButton(Window* frame, wxButton* button);
