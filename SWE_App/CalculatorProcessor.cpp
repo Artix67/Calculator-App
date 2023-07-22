@@ -1,7 +1,7 @@
 #include "CalculatorProcessor.h"
 
 CalculatorProcessor::CalculatorProcessor() {
-
+	 
 }
 
 CalculatorProcessor::~CalculatorProcessor() {
