@@ -31,6 +31,7 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 	EVT_BUTTON(21, TanButtonClicked)
 	EVT_BUTTON(22, LeftPButtonClicked)
 	EVT_BUTTON(23, RightPButtonClicked)
+	EVT_BUTTON(24, CommaButtonClicked)
 
 wxEND_EVENT_TABLE()
 
@@ -64,6 +65,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	sinButton = factory.CreateSinButton(this, sinButton);
 	cosButton = factory.CreateCosButton(this, cosButton);
 	tanButton = factory.CreateTanButton(this, tanButton);
+	commaButton = factory.CreateCommaButton(this, commaButton);
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
 }
@@ -228,3 +230,8 @@ void Window::RightPButtonClicked(wxCommandEvent& evt) {
 	evt.Skip();
 }
 
+void Window::CommaButtonClicked(wxCommandEvent& evt) {
+	wxString selectedTest = ",";
+	outputScreen->AppendText(selectedTest);
+	evt.Skip();
+}

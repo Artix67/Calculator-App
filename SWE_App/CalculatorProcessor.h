@@ -28,6 +28,6 @@ public:
 	bool isLeftAssociative(Token token);
 	std::string calculateResult(std::vector<Token>* outputQueue);
 	double calculateOperation(Token t1, Token t2, Token t3);
-	double calculateFunction(Token t1, Token t2);
+	double calculateFunction(Token t1, Token t2, Token t3);
 };
 

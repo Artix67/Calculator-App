@@ -34,5 +34,6 @@ public:
 	wxButton* CreateCosButton(Window* frame, wxButton* button);
 	wxButton* CreateSinButton(Window* frame, wxButton* button);
 	wxButton* CreateTanButton(Window* frame, wxButton* button);
+	wxButton* CreateCommaButton(Window* frame, wxButton* button);
 };			
 

@@ -8,7 +8,8 @@ struct Token
 		Number,
 		Function,
 		Operator,
-		Parentheses
+		Parentheses,
+		Comma
 	};
 
 	TokenType type;

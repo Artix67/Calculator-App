@@ -57,6 +57,9 @@ bool CalculatorProcessor::TokenizeInput(std::string inputString, std::list<Token
 		else if (inputString[i] == '(' || inputString[i] == ')') {
 			tokens->push_back(Token(Token::Parentheses, std::string(1, inputString[i])));
 		}
+		else if (inputString[i] == ',') {
+			tokens->push_back(Token(Token::Comma, std::string(1, inputString[i])));
+		}
 		else {
 			tokens->push_back(Token(Token::Operator,std::string(1, inputString[i])));
 		}
@@ -184,7 +187,7 @@ std::string CalculatorProcessor::calculateResult(std::vector<Token>* outputQueue
 			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(operationResult)));
 		}
 		else {
-			double functionResult = calculateFunction(t1, t2);
+			double functionResult = calculateFunction(t1, t2, Token(Token::Comma, ""));
 			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 2);
 			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(functionResult)));
 		}
@@ -212,9 +215,12 @@ double CalculatorProcessor::calculateOperation(Token t1, Token t2, Token t3) {
 	}
 }
 
-double CalculatorProcessor::calculateFunction(Token t1, Token t2) {
+double CalculatorProcessor::calculateFunction(Token t1, Token t2, Token t3) {
 
-	if (t2.value == "Sin") {
+	if (t3.type == Token::Function) {
+		return fmod(std::stod(t1.value), std::stod(t2.value));
+	}
+	else if (t2.value == "Sin") {
 		return sin(std::stod(t1.value));
 	}
 	else if (t2.value == "Cos") {
@@ -256,6 +262,12 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 					operatorStack->pop();
 				}
 				operatorStack->push(t);
+			}
+			else if (t.type == Token::Comma) {
+				while (!operatorStack->empty() && operatorStack->top().value != "(") {
+					outputQueue->push_back(operatorStack->top());
+					operatorStack->pop();
+				}
 			}
 			else if (t.value == "(") {
 				operatorStack->push(t);

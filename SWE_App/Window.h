@@ -37,6 +37,7 @@ public:
 	wxButton* sinButton = nullptr;
 	wxButton* cosButton = nullptr;
 	wxButton* tanButton = nullptr;
+	wxButton* commaButton = nullptr;
 
 	void ZeroButtonClicked(wxCommandEvent& evt);
 	void OneButtonClicked(wxCommandEvent& evt);
@@ -62,5 +63,6 @@ public:
 	void TanButtonClicked(wxCommandEvent& evt);
 	void LeftPButtonClicked(wxCommandEvent& evt);
 	void RightPButtonClicked(wxCommandEvent& evt);
+	void CommaButtonClicked(wxCommandEvent& evt);
 };
 

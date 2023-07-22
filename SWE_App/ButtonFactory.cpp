@@ -65,7 +65,7 @@ wxButton* ButtonFactory::CreateDecimalButton(Window* frame, wxButton* button) {
 }
 
 wxButton* ButtonFactory::CreatePlusButton(Window* frame, wxButton* button) {
-	button = new wxButton(frame, 11, "+", wxPoint(315, 120), wxSize(85, 20));
+	button = new wxButton(frame, 11, "+", wxPoint(315, 120), wxSize(37.50, 20));
 	return button;
 }
 
@@ -126,6 +126,11 @@ wxButton* ButtonFactory::CreateSinButton(Window* frame, wxButton* button) {
 
 wxButton* ButtonFactory::CreateTanButton(Window* frame, wxButton* button) {
 	button = new wxButton(frame, 21, "Tan", wxPoint(410, 270), wxSize(85, 50));
+	return button;
+}
+
+wxButton* ButtonFactory::CreateCommaButton(Window* frame, wxButton* button) {
+	button = new wxButton(frame, 24, ",", wxPoint(365, 120), wxSize(37.50, 20));
 	return button;
 }
 
