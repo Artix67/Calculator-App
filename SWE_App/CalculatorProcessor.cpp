@@ -182,7 +182,13 @@ std::string CalculatorProcessor::calculateResult(std::vector<Token>* outputQueue
 
 		if (t2.type == Token::Number) {
 			Token t3 = (*outputQueue)[2];
-			double operationResult = calculateOperation(t1, t2, t3);
+			double operationResult = 0;
+			if (t3.type == Token::Function) {
+				operationResult = calculateFunction(t1, t2, t3);
+			}
+			else {
+				operationResult = calculateOperation(t1, t2, t3);
+			}
 			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 3);
 			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(operationResult)));
 		}
