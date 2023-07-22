@@ -173,20 +173,19 @@ std::string CalculatorProcessor::calculateResult(std::vector<Token>* outputQueue
 		return "0";
 	}
 
-	for (size_t i = 0; i < outputQueue->size() - 1; i++) {
-		Token t1 = (*outputQueue)[i];
-		Token t2 = (*outputQueue)[i + 1];
+	while (outputQueue->size() > 1) {
+		Token t1 = (*outputQueue)[0];
+		Token t2 = (*outputQueue)[1];
 
 		if (t2.type == Token::Number) {
-			Token t3 = (*outputQueue)[i + 2];
+			Token t3 = (*outputQueue)[2];
 			double operationResult = calculateOperation(t1, t2, t3);
-			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 2);
+			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 3);
 			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(operationResult)));
-			i++;
 		}
 		else {
 			double functionResult = calculateFunction(t1, t2);
-			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 1);
+			outputQueue->erase(outputQueue->begin(), outputQueue->begin() + 2);
 			outputQueue->insert(outputQueue->begin(), Token(Token::Number, std::to_string(functionResult)));
 		}
 	}
@@ -278,7 +277,7 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 
 				operatorStack->pop();
 
-				if (operatorStack->top().type == Token::Function) {
+				if (!operatorStack->empty() && operatorStack->top().type == Token::Function) {
 					outputQueue->push_back(operatorStack->top());
 					operatorStack->pop();
 				}

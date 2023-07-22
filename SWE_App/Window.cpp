@@ -66,7 +66,6 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	tanButton = factory.CreateTanButton(this, tanButton);
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
-	outputScreen->AppendText("Sin(3/3*3.141)");
 }
 
 
