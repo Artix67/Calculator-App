@@ -317,7 +317,13 @@ std::string CalculatorProcessor::inputCalculation(std::string inputString) {
 		errorResult = false;
 	}
 
-	std::string result = calculateResult(outputQueue);
+	std::string result = "";
+	if (errorResult == true) {
+		result = calculateResult(outputQueue);
+	}
+	else {
+		result = "Syntax error...";
+	}
 	delete tokens;
 	delete operatorStack;
 	delete outputQueue;

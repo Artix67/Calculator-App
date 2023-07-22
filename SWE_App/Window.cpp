@@ -67,7 +67,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	tanButton = factory.CreateTanButton(this, tanButton);
 	commaButton = factory.CreateCommaButton(this, commaButton);
 
-	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50));
+	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50), wxTE_READONLY);
 }
 
 
