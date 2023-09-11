@@ -31,7 +31,7 @@ wxBEGIN_EVENT_TABLE(Window, wxFrame)
 	EVT_BUTTON(21, TanButtonClicked)
 	EVT_BUTTON(22, LeftPButtonClicked)
 	EVT_BUTTON(23, RightPButtonClicked)
-	EVT_BUTTON(24, CommaButtonClicked)
+	EVT_BUTTON(24, NegButtonClicked)
 
 wxEND_EVENT_TABLE()
 
@@ -65,7 +65,7 @@ Window::Window() : wxFrame(nullptr, 30, "Calculator", wxPoint(200, 200), wxSize(
 	sinButton = factory.CreateSinButton(this, sinButton);
 	cosButton = factory.CreateCosButton(this, cosButton);
 	tanButton = factory.CreateTanButton(this, tanButton);
-	commaButton = factory.CreateCommaButton(this, commaButton);
+	negButton = factory.CreateNegButton(this, negButton);
 
 	outputScreen = new wxTextCtrl(this, 14, "", wxPoint(30, 30), wxSize(525, 50), wxTE_READONLY);
 }
@@ -166,7 +166,6 @@ void Window::MultiplyButtonClicked(wxCommandEvent& evt) {
 }
 
 void Window::EqualButtonClicked(wxCommandEvent& evt) {
-
 	CalculatorProcessor Calculator;
 	std::string convertedString = outputScreen->GetValue().ToStdString();
 
@@ -182,14 +181,12 @@ void Window::EqualButtonClicked(wxCommandEvent& evt) {
 }
 
 void Window::BackspaceButtonClicked(wxCommandEvent& evt) {
-
 	wxString currentText = outputScreen->GetValue();
 	outputScreen->Remove(currentText.Length() - 1, currentText.Length());
 	evt.Skip();
 }
 
 void Window::ClearButtonClicked(wxCommandEvent& evt) {
-
 	outputScreen->Clear();
 	evt.Skip();
 }
@@ -230,8 +227,13 @@ void Window::RightPButtonClicked(wxCommandEvent& evt) {
 	evt.Skip();
 }
 
-void Window::CommaButtonClicked(wxCommandEvent& evt) {
-	wxString selectedTest = ",";
-	outputScreen->AppendText(selectedTest);
+void Window::NegButtonClicked(wxCommandEvent& evt) {
+	wxString currentText = outputScreen->GetValue();
+	std::string temp = std::string(currentText.mb_str());
+	std::string temp2 = "-";
+	temp.insert(0, temp2);
+	wxString result(temp);
+	outputScreen->Clear();
+	outputScreen->AppendText(result);
 	evt.Skip();
 }

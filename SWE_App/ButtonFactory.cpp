@@ -129,8 +129,8 @@ wxButton* ButtonFactory::CreateTanButton(Window* frame, wxButton* button) {
 	return button;
 }
 
-wxButton* ButtonFactory::CreateCommaButton(Window* frame, wxButton* button) {
-	button = new wxButton(frame, 24, ",", wxPoint(365, 120), wxSize(37.50, 20));
+wxButton* ButtonFactory::CreateNegButton(Window* frame, wxButton* button) {
+	button = new wxButton(frame, 24, "Neg", wxPoint(365, 120), wxSize(37.50, 20));
 	return button;
 }
 
